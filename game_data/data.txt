@@ -1,0 +1,3 @@
+hs:19310
+debug:false
+fullscreen:true
