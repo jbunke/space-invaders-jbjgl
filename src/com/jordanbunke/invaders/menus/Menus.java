@@ -3,6 +3,7 @@ package com.jordanbunke.invaders.menus;
 import com.jordanbunke.invaders.SpaceInvaders;
 import com.jordanbunke.invaders.handlers.SIHandler;
 import com.jordanbunke.invaders.handlers.SIRenderer;
+import com.jordanbunke.invaders.io.Settings;
 import com.jordanbunke.jbjgl.image.GameImage;
 import com.jordanbunke.jbjgl.menus.Menu;
 import com.jordanbunke.jbjgl.menus.MenuBuilder;
@@ -16,8 +17,8 @@ public final class Menus {
 
     private static final Menus INSTANCE = new Menus();
 
-    private final Menu placeholder, pauseMenu;
-    private Menu gameOverMenu, beatGameMenu;
+    private final Menu placeholder;
+    private Menu gameOverMenu, beatGameMenu, pauseMenu;
 
     private Menus() {
         this.placeholder = new Menu();
@@ -39,20 +40,28 @@ public final class Menus {
         return INSTANCE.placeholder;
     }
 
-    public static void regenerate() {
+    public static void regenerateEndgameMenus() {
         INSTANCE.beatGameMenu = generateEndgameMenu(true);
         INSTANCE.gameOverMenu = generateEndgameMenu(false);
     }
 
     private static Menu generatePauseMenu() {
-        return generateMenu(6,
+        return generateMenu(4,
                 new String[] {},
                 new String[] {
-                        "RESUME", "RESTART", "QUIT"
+                        "RESUME",
+                        Settings.isFullscreen() ? "WINDOWED" : "FULLSCREEN",
+                        "RESTART",
+                        "QUIT"
                 },
                 new Runnable[] {
-                        () -> SIHandler.get().pausePlay(),
-                        () -> SIHandler.get().restartGame(),
+                        SIHandler.get()::pausePlay,
+                        () -> {
+                            Settings.toggleFullscreen();
+                            SpaceInvaders.refreshWindow();
+                            INSTANCE.pauseMenu = generatePauseMenu();
+                        },
+                        SIHandler.get()::restartGame,
                         SpaceInvaders::quit
                 }
         );
@@ -72,7 +81,7 @@ public final class Menus {
                         "RESTART", "QUIT"
                 },
                 new Runnable[] {
-                        () -> SIHandler.get().restartGame(),
+                        SIHandler.get()::restartGame,
                         SpaceInvaders::quit
                 }
         );

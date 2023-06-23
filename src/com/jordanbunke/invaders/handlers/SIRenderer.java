@@ -106,8 +106,12 @@ public final class SIRenderer implements Renderer {
                 
                 
                 
-                MOVE: [A/D]              SHOOT: [SPACE]
+                
+                
+                
+                MOVE - [A/D]              SHOOT - [SPACE]
                 Reprogrammed by Flinker Flitzer
+                
                 """;
 
         renderOverlay(canvas, mainMenuText + (spriteStateB ? "[SPACE] to start" : " "));

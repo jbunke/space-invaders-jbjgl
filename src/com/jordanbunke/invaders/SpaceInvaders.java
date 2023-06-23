@@ -18,21 +18,32 @@ import com.jordanbunke.jbjgl.window.GameWindow;
 public final class SpaceInvaders implements ProgramContext {
     private static final SpaceInvaders INSTANCE;
 
-    static {
-        INSTANCE = new SpaceInvaders();
-    }
+    private final GameEngine gameEngine;
 
-    public static void main(String[] args) {
+    static {
         OnStartup.run();
         Settings.read();
 
+        INSTANCE = new SpaceInvaders();
+    }
+
+    private SpaceInvaders() {
         final GameWindow window = createWindow();
-        final GameManager gameManager = new GameManager(0, INSTANCE);
-        final GameEngine gameEngine = new GameEngine(window, gameManager,
+        final GameManager gameManager = new GameManager(0, this);
+
+        gameEngine = new GameEngine(window, gameManager,
                 GameConstants.UPDATE_HZ, GameConstants.TARGET_FPS);
-        gameEngine.setCanvasSize(SIRenderer.CANVAS_WIDTH, SIRenderer.CANVAS_HEIGHT);
+        gameEngine.setCanvasSize(SIRenderer.CANVAS_WIDTH,
+                SIRenderer.CANVAS_HEIGHT);
 
         new Game(GameConstants.TITLE, gameManager, gameEngine);
+    }
+
+    public static void main(String[] args) {
+    }
+
+    public static void refreshWindow() {
+        INSTANCE.gameEngine.replaceWindow(createWindow());
     }
 
     private static GameWindow createWindow() {

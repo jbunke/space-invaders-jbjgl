@@ -20,8 +20,8 @@ public final class SIButton extends SimpleMenuButton {
     public static SIButton create(final String text, final Runnable chosenBehaviour, final int y) {
         final Coord2D position = new Coord2D(SIRenderer.CANVAS_WIDTH / 2, y);
 
-        final GameImage nh = RenderHelper.drawText(text),
-                h = RenderHelper.drawText(text, RenderHelper.GREEN);
+        final GameImage nh = RenderHelper.drawTextForMenu(text, RenderHelper.WHITE),
+                h = RenderHelper.drawTextForMenu(text, RenderHelper.GREEN);
 
         final Coord2D dimensions = new Coord2D(nh.getWidth(), nh.getHeight());
 

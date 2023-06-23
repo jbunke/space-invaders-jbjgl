@@ -76,4 +76,8 @@ public final class Settings {
     public static boolean isFullscreen() {
         return fullscreen;
     }
+
+    public static void toggleFullscreen() {
+        Settings.fullscreen = !fullscreen;
+    }
 }

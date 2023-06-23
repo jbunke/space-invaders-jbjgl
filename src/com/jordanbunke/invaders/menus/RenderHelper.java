@@ -48,8 +48,8 @@ public final class RenderHelper {
     }
 
     public static GameImage drawText(final String text, final Color color) {
-        final TextBuilder builder = new TextBuilder(1.0, Text.Orientation.CENTER, color,
-                AssetFetcher.GAME_FONT);
+        final TextBuilder builder = new TextBuilder(1.0, 0.5,
+                Text.Orientation.CENTER, color, AssetFetcher.GAME_FONT);
         final String[] lines = text.split("\n");
 
         for (int i = 0; i < lines.length; i++) {
@@ -59,12 +59,14 @@ public final class RenderHelper {
                 builder.addLineBreak();
         }
 
-        final GameImage around = builder.build().draw();
-        if (lines.length > 1)
-            return around;
+        return builder.build().draw();
+    }
 
-        final GameImage trimmed = new GameImage(around.getWidth(), 13);
-        trimmed.draw(around, 0, -13);
+    public static GameImage drawTextForMenu(final String text, final Color color) {
+        final GameImage around = drawText(text, color);
+
+        final GameImage trimmed = new GameImage(around.getWidth(), 7);
+        trimmed.draw(around, 0, -8);
         return trimmed.submit();
     }
 }

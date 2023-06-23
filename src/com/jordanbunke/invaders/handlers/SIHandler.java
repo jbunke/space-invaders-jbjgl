@@ -171,12 +171,12 @@ public final class SIHandler implements LogicHandler, EventHandler {
     }
 
     private void beatTheGame() {
-        Menus.regenerate();
+        Menus.regenerateEndgameMenus();
         state = State.BEAT_THE_GAME;
     }
 
     private void gameOver() {
-        Menus.regenerate();
+        Menus.regenerateEndgameMenus();
         state = State.GAME_OVER;
     }
 
