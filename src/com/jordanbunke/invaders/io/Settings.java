@@ -23,6 +23,8 @@ public final class Settings {
 
     public static void read() {
         final String contents = FileIO.readFile(DATA_FILE);
+        if (contents == null)
+            return;
         final String[] lines = contents.split("\n");
 
         for (String line : lines) {
@@ -32,9 +34,9 @@ public final class Settings {
                 continue;
 
             switch (values[0]) {
-                case HIGH_SCORE_TAG -> savedHighScore = parseIntOrElse(values[1], 0);
-                case DEBUG_TAG -> debug = parseBoolOrElse(values[1], false);
-                case FULLSCREEN_TAG -> fullscreen = parseBoolOrElse(values[1], true);
+                case HIGH_SCORE_TAG -> savedHighScore = parseIntOrElse(values[1], savedHighScore);
+                case DEBUG_TAG -> debug = parseBoolOrElse(values[1], debug);
+                case FULLSCREEN_TAG -> fullscreen = parseBoolOrElse(values[1], fullscreen);
             }
         }
     }

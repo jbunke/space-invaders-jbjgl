@@ -17,8 +17,8 @@ public final class EffectComponent extends EntityComponent<Vector2D> {
     }
 
     // useful for animated effects
-    public int getAge() {
-        return age;
+    public double getAgeAsLifespanRatio() {
+        return age / (double)lifespan;
     }
 
     public boolean isExpired() {

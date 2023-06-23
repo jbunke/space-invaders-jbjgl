@@ -53,14 +53,6 @@ public final class PlayerControllerComponent extends EntityComponent<Vector2D> {
         this.movingRight = movingRight;
     }
 
-    public boolean isMovingLeft() {
-        return movingLeft;
-    }
-
-    public boolean isMovingRight() {
-        return movingRight;
-    }
-
     public void attemptShot() {
         attemptShotOnUpdate = true;
     }

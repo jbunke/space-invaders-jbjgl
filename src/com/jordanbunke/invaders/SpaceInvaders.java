@@ -1,22 +1,21 @@
 package com.jordanbunke.invaders;
 
 import com.jordanbunke.invaders.handlers.SIHandler;
+import com.jordanbunke.invaders.handlers.SIRenderer;
 import com.jordanbunke.invaders.io.AssetFetcher;
 import com.jordanbunke.invaders.io.Settings;
 import com.jordanbunke.invaders.logic.GameConstants;
-import com.jordanbunke.invaders.handlers.SIRenderer;
 import com.jordanbunke.jbjgl.OnStartup;
 import com.jordanbunke.jbjgl.contexts.ProgramContext;
 import com.jordanbunke.jbjgl.debug.GameDebugger;
 import com.jordanbunke.jbjgl.game.Game;
 import com.jordanbunke.jbjgl.game.GameEngine;
 import com.jordanbunke.jbjgl.game.GameManager;
+import com.jordanbunke.jbjgl.image.GameImage;
 import com.jordanbunke.jbjgl.io.InputEventLogger;
 import com.jordanbunke.jbjgl.window.GameWindow;
 
-import java.awt.*;
-
-public final class SpaceInvaders extends ProgramContext {
+public final class SpaceInvaders implements ProgramContext {
     private static final SpaceInvaders INSTANCE;
 
     static {
@@ -31,7 +30,7 @@ public final class SpaceInvaders extends ProgramContext {
         final GameManager gameManager = new GameManager(0, INSTANCE);
         final GameEngine gameEngine = new GameEngine(window, gameManager,
                 GameConstants.UPDATE_HZ, GameConstants.TARGET_FPS);
-        gameEngine.setRenderDimension(SIRenderer.CANVAS_WIDTH, SIRenderer.CANVAS_HEIGHT);
+        gameEngine.setCanvasSize(SIRenderer.CANVAS_WIDTH, SIRenderer.CANVAS_HEIGHT);
 
         new Game(GameConstants.TITLE, gameManager, gameEngine);
     }
@@ -57,14 +56,14 @@ public final class SpaceInvaders extends ProgramContext {
     }
 
     @Override
-    public void render(final Graphics2D g) {
-        SIRenderer.get().render(g);
+    public void render(final GameImage canvas) {
+        SIRenderer.get().render(canvas);
     }
 
     @Override
-    public void debugRender(final Graphics2D g, final GameDebugger debugger) {
+    public void debugRender(final GameImage canvas, final GameDebugger debugger) {
         if (Settings.isDebug())
-            SIRenderer.get().debugRender(g, debugger);
+            SIRenderer.get().debugRender(canvas, debugger);
     }
 
     public static void quit() {

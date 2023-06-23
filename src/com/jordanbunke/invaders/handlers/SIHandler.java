@@ -402,7 +402,8 @@ public final class SIHandler implements LogicHandler, EventHandler {
 
         // remove destroyed enemies and replace them with explosions
         entities.stream().filter(x -> EntityUtils.isEnemy(x, true)).forEach(x -> {
-            toAdd.add(EntityFactory.createEffect(x.getPosition(), "explosion"));
+            toAdd.add(EntityFactory.createEffect(x.getPosition(),
+                    "explosion", GameConstants.ENEMY_EXPLOSION_LIFESPAN));
             toRemove.add(x);
         });
 
@@ -417,7 +418,8 @@ public final class SIHandler implements LogicHandler, EventHandler {
                 return;
 
             if (dc.isDestroyed()) {
-                toAdd.add(EntityFactory.createEffect(x.getPosition(), String.valueOf(hpc.points)));
+                toAdd.add(EntityFactory.createEffect(x.getPosition(),
+                        String.valueOf(hpc.points), GameConstants.UFO_EXPLOSION_LIFESPAN));
                 toRemove.add(x);
             } else if (ufo.hasEscaped())
                 toRemove.add(x);

@@ -14,7 +14,6 @@ import com.jordanbunke.jbjgl.image.GameImage;
 import com.jordanbunke.jbjgl.io.ResourceLoader;
 import com.jordanbunke.jbjgl.utility.Coord2D;
 
-import java.awt.*;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -66,43 +65,42 @@ public final class SIRenderer implements Renderer {
     }
 
     @Override
-    public void render(final Graphics2D g) {
-        renderBackground(g);
+    public void render(final GameImage canvas) {
+        renderBackground(canvas);
 
         final SIHandler.State state = SIHandler.get().getState();
 
         switch (state) {
             case PLAYING, LIFE_LOST, NOT_STARTED,
                     GAME_OVER, BETWEEN_WAVES, BEAT_THE_GAME -> {
-                renderGameWorld(g);
-                renderUI(g);
+                renderGameWorld(canvas);
+                renderUI(canvas);
             }
-            case GAME_START_UP -> renderStartUpOverlay(g);
+            case GAME_START_UP -> renderStartUpOverlay(canvas);
         }
 
         if (state == SIHandler.State.BETWEEN_WAVES)
-            renderWaveCompleteOverlay(g);
+            renderWaveCompleteOverlay(canvas);
 
-        Menus.resolve().render(g);
+        Menus.resolve().render(canvas);
     }
 
     /* BACKGROUND */
-    private void renderBackground(final Graphics2D g) {
-        g.setColor(RenderHelper.BLACK);
-        g.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    private void renderBackground(final GameImage canvas) {
+        canvas.fillRectangle(RenderHelper.BLACK, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
 
     /* UI */
-    private void renderWaveCompleteOverlay(final Graphics2D g) {
-        renderOverlay(g, "COMPLETED WAVE " + SIHandler.get().getWave() + " OF " + GameConstants.WAVES);
+    private void renderWaveCompleteOverlay(final GameImage canvas) {
+        renderOverlay(canvas, "COMPLETED WAVE " + SIHandler.get().getWave() + " OF " + GameConstants.WAVES);
     }
 
-    private void renderStartUpOverlay(final Graphics2D g) {
+    private void renderStartUpOverlay(final GameImage canvas) {
         final GameImage logo = ResourceLoader.loadImageResource(Path.of("img", "logo.png"));
         final GameImage points = ResourceLoader.loadImageResource(Path.of("img", "points.png"));
 
-        g.drawImage(logo, (CANVAS_WIDTH - logo.getWidth()) / 2, 10, null);
-        g.drawImage(points, (CANVAS_WIDTH - points.getWidth()) / 2, (int)(CANVAS_HEIGHT * 0.34), null);
+        canvas.draw(logo, (CANVAS_WIDTH - logo.getWidth()) / 2, 10);
+        canvas.draw(points, (CANVAS_WIDTH - points.getWidth()) / 2, (int)(CANVAS_HEIGHT * 0.34));
 
         final String mainMenuText = """
                 
@@ -112,24 +110,21 @@ public final class SIRenderer implements Renderer {
                 Reprogrammed by Flinker Flitzer
                 """;
 
-        renderOverlay(g, mainMenuText + (spriteStateB ? "[SPACE] to start" : " "));
+        renderOverlay(canvas, mainMenuText + (spriteStateB ? "[SPACE] to start" : " "));
     }
 
-    private void renderOverlay(final Graphics2D g, final String text) {
+    private void renderOverlay(final GameImage canvas, final String text) {
         final GameImage overlay = RenderHelper.drawText(text);
 
         final int x = (CANVAS_WIDTH - overlay.getWidth()) / 2,
                 y = (CANVAS_HEIGHT - overlay.getHeight()) / 2;
 
-        g.drawImage(overlay, x, y, null);
+        canvas.draw(overlay, x, y);
     }
 
-    private void renderUI(final Graphics2D g) {
-        g.setColor(RenderHelper.BLACK);
-        g.fillRect(0, UI_STRIP_Y, CANVAS_WIDTH, UI_STRIP_HEIGHT);
-
-        g.setColor(RenderHelper.GREEN);
-        g.fillRect(0, UI_STRIP_Y, CANVAS_WIDTH, 1);
+    private void renderUI(final GameImage canvas) {
+        canvas.fillRectangle(RenderHelper.BLACK, 0, UI_STRIP_Y, CANVAS_WIDTH, UI_STRIP_HEIGHT);
+        canvas.fillRectangle(RenderHelper.GREEN, 0, UI_STRIP_Y, CANVAS_WIDTH, 1);
 
         final GameImage score = RenderHelper.drawText("Score: " + SIHandler.get().getScore()),
                 wave = RenderHelper.drawText("Wave: " + (SIHandler.get().getWave() + 1) + "/" + GameConstants.WAVES),
@@ -140,21 +135,21 @@ public final class SIRenderer implements Renderer {
 
         final int y = UI_STRIP_Y + 1 + UI_ELEMENT_SPACE_BETWEEN;
 
-        g.drawImage(score, UI_ELEMENT_SPACE_BETWEEN, y - AssetFetcher.FONT_OFFSET, null);
-        g.drawImage(highScore, (int)(CANVAS_WIDTH * 0.35) - (highScore.getWidth() / 2), y - AssetFetcher.FONT_OFFSET, null);
-        g.drawImage(wave, (int)(CANVAS_WIDTH * 0.65) - (wave.getWidth() / 2), y - AssetFetcher.FONT_OFFSET, null);
+        canvas.draw(score, UI_ELEMENT_SPACE_BETWEEN, y - AssetFetcher.FONT_OFFSET);
+        canvas.draw(highScore, (int)(CANVAS_WIDTH * 0.35) - (highScore.getWidth() / 2), y - AssetFetcher.FONT_OFFSET);
+        canvas.draw(wave, (int)(CANVAS_WIDTH * 0.65) - (wave.getWidth() / 2), y - AssetFetcher.FONT_OFFSET);
 
         int livesX = CANVAS_WIDTH - (UI_ELEMENT_SPACE_BETWEEN + livesValue.getWidth());
 
-        g.drawImage(livesValue, livesX, y - AssetFetcher.FONT_OFFSET, null);
+        canvas.draw(livesValue, livesX, y - AssetFetcher.FONT_OFFSET);
         livesX -= UI_ELEMENT_SPACE_BETWEEN + playerIcon.getWidth();
-        g.drawImage(playerIcon, livesX, y, null);
+        canvas.draw(playerIcon, livesX, y);
         livesX -= UI_ELEMENT_SPACE_BETWEEN + lives.getWidth();
-        g.drawImage(lives, livesX, y - AssetFetcher.FONT_OFFSET, null);
+        canvas.draw(lives, livesX, y - AssetFetcher.FONT_OFFSET);
     }
 
     /* GAME WORLD */
-    private void renderGameWorld(final Graphics2D g) {
+    private void renderGameWorld(final GameImage canvas) {
         final Set<GameEntity<Vector2D>> entities = SIHandler.get().getEntities();
 
         final Optional<GameEntity<Vector2D>>
@@ -172,39 +167,39 @@ public final class SIRenderer implements Renderer {
                         x -> x.hasComponent(EffectComponent.class)).collect(Collectors.toSet());
 
         // Render order (back to front): projectiles, bunker parts, UFO, enemies, player, effects
-        renderProjectiles(g, projectiles);
-        renderBunkerParts(g, bunkerParts);
-        ufo.ifPresent(u -> renderUFO(g, u));
-        renderEnemies(g, enemies);
-        player.ifPresent(p -> renderPlayer(g, p));
-        renderEffects(g, effects);
+        renderProjectiles(canvas, projectiles);
+        renderBunkerParts(canvas, bunkerParts);
+        ufo.ifPresent(u -> renderUFO(canvas, u));
+        renderEnemies(canvas, enemies);
+        player.ifPresent(p -> renderPlayer(canvas, p));
+        renderEffects(canvas, effects);
     }
 
-    private void renderEffects(final Graphics2D g, final Set<GameEntity<Vector2D>> effects) {
-        renderEntityIterator(g, effects, this::renderEffect);
+    private void renderEffects(final GameImage canvas, final Set<GameEntity<Vector2D>> effects) {
+        renderEntityIterator(canvas, effects, this::renderEffect);
     }
 
-    private void renderEnemies(final Graphics2D g, final Set<GameEntity<Vector2D>> enemies) {
-        renderEntityIterator(g, enemies, this::renderEnemy);
+    private void renderEnemies(final GameImage canvas, final Set<GameEntity<Vector2D>> enemies) {
+        renderEntityIterator(canvas, enemies, this::renderEnemy);
     }
 
-    private void renderBunkerParts(final Graphics2D g, final Set<GameEntity<Vector2D>> bunkerParts) {
-        renderEntityIterator(g, bunkerParts, this::renderBunkerPart);
+    private void renderBunkerParts(final GameImage canvas, final Set<GameEntity<Vector2D>> bunkerParts) {
+        renderEntityIterator(canvas, bunkerParts, this::renderBunkerPart);
     }
 
-    private void renderProjectiles(final Graphics2D g, final Set<GameEntity<Vector2D>> projectiles) {
-        renderEntityIterator(g, projectiles, this::renderProjectile);
+    private void renderProjectiles(final GameImage canvas, final Set<GameEntity<Vector2D>> projectiles) {
+        renderEntityIterator(canvas, projectiles, this::renderProjectile);
     }
 
     private void renderEntityIterator(
-            final Graphics2D g, final Set<GameEntity<Vector2D>> entities,
-            final BiConsumer<Graphics2D, GameEntity<Vector2D>> f
+            final GameImage canvas, final Set<GameEntity<Vector2D>> entities,
+            final BiConsumer<GameImage, GameEntity<Vector2D>> f
     ) {
-        entities.forEach(x -> f.accept(g, x));
+        entities.forEach(x -> f.accept(canvas, x));
     }
 
     /* INDIVIDUAL ENTITIES */
-    private void renderPlayer(final Graphics2D g, final GameEntity<Vector2D> player) {
+    private void renderPlayer(final GameImage canvas, final GameEntity<Vector2D> player) {
         final DestructibleComponent dc = player.getComponent(DestructibleComponent.class);
 
         if (dc == null)
@@ -216,14 +211,14 @@ public final class SIRenderer implements Renderer {
                 : spriteMap.get(Sprite.CANNON_DESTROYED_1))
                 : spriteMap.get(Sprite.CANNON);
 
-        renderEntity(g, sprite, player);
+        renderEntity(canvas, sprite, player);
     }
 
-    private void renderUFO(final Graphics2D g, final GameEntity<Vector2D> ufo) {
-        renderEntity(g, spriteMap.get(Sprite.UFO), ufo);
+    private void renderUFO(final GameImage canvas, final GameEntity<Vector2D> ufo) {
+        renderEntity(canvas, spriteMap.get(Sprite.UFO), ufo);
     }
 
-    private void renderEffect(final Graphics2D g, final GameEntity<Vector2D> effect) {
+    private void renderEffect(final GameImage canvas, final GameEntity<Vector2D> effect) {
         final EffectComponent ec = effect.getComponent(EffectComponent.class);
 
         if (ec == null)
@@ -232,7 +227,8 @@ public final class SIRenderer implements Renderer {
         final GameImage sprite;
         final String id = ec.id;
 
-        if (id.equals("explosion"))
+        if (id.equals("explosion") ||
+                ec.getAgeAsLifespanRatio() < GameConstants.UFO_EXPLOSION_LONGEVITY_SHOW_POINT_THRESHOLD)
             sprite = spriteMap.get(Sprite.EXPLOSION);
         else if (effectSpriteMap.containsKey(effect))
             sprite = effectSpriteMap.get(effect);
@@ -241,10 +237,10 @@ public final class SIRenderer implements Renderer {
             effectSpriteMap.put(effect, sprite);
         }
 
-        renderEntity(g, sprite, effect);
+        renderEntity(canvas, sprite, effect);
     }
 
-    private void renderEnemy(final Graphics2D g, final GameEntity<Vector2D> enemy) {
+    private void renderEnemy(final GameImage canvas, final GameEntity<Vector2D> enemy) {
         final EnemyLogicComponent elc = enemy.getComponent(EnemyLogicComponent.class);
 
         if (elc == null)
@@ -253,10 +249,10 @@ public final class SIRenderer implements Renderer {
         final String suffix = spriteStateA ? "_2" : "_1";
         final GameImage sprite = spriteMap.get(Sprite.valueOf(elc.type + suffix));
 
-        renderEntity(g, sprite, enemy);
+        renderEntity(canvas, sprite, enemy);
     }
 
-    private void renderBunkerPart(final Graphics2D g, final GameEntity<Vector2D> part) {
+    private void renderBunkerPart(final GameImage canvas, final GameEntity<Vector2D> part) {
         final BunkerPartComponent bpc = part.getComponent(BunkerPartComponent.class);
         final DestructibleComponent dc = part.getComponent(DestructibleComponent.class);
 
@@ -282,10 +278,10 @@ public final class SIRenderer implements Renderer {
             bunkerPartDamageStatusMap.put(part, dc.getHP());
         }
 
-        renderEntity(g, sprite, part);
+        renderEntity(canvas, sprite, part);
     }
 
-    private void renderProjectile(final Graphics2D g, final GameEntity<Vector2D> projectile) {
+    private void renderProjectile(final GameImage canvas, final GameEntity<Vector2D> projectile) {
         final ProjectileComponent ppc = projectile.getComponent(ProjectileComponent.class);
 
         if (ppc == null)
@@ -301,14 +297,14 @@ public final class SIRenderer implements Renderer {
             }
         };
 
-        renderEntity(g, sprite, projectile);
+        renderEntity(canvas, sprite, projectile);
     }
 
-    private void renderEntity(final Graphics2D g, final GameImage sprite, final GameEntity<Vector2D> entity) {
+    private void renderEntity(final GameImage canvas, final GameImage sprite, final GameEntity<Vector2D> entity) {
         final Coord2D renderPosition = gameWorldToRenderPosition(entity.getPosition());
 
-        g.drawImage(sprite, renderPosition.x - (sprite.getWidth() / 2),
-                renderPosition.y - (sprite.getHeight() / 2), null);
+        canvas.draw(sprite, renderPosition.x - (sprite.getWidth() / 2),
+                renderPosition.y - (sprite.getHeight() / 2));
     }
 
     private Coord2D gameWorldToRenderPosition(final Vector2D gwPosition) {
@@ -317,11 +313,11 @@ public final class SIRenderer implements Renderer {
 
     /* DEBUG RENDER */
     @Override
-    public void debugRender(final Graphics2D g, final GameDebugger debugger) {
+    public void debugRender(final GameImage canvas, final GameDebugger debugger) {
         final GameImage fps = RenderHelper.drawText(debugger.getFPS() + " fps");
-        g.drawImage(fps, CANVAS_WIDTH - (fps.getWidth() + 2), 2 - AssetFetcher.FONT_OFFSET, null);
+        canvas.draw(fps, CANVAS_WIDTH - (fps.getWidth() + 2), 2 - AssetFetcher.FONT_OFFSET);
 
-        Menus.resolve().debugRender(g, debugger);
+        Menus.resolve().debugRender(canvas, debugger);
     }
 
     public void update() {

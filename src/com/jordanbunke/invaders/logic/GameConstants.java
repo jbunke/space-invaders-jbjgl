@@ -9,10 +9,10 @@ public final class GameConstants {
 
     /* GENERAL MATHS */
     public static final double UPDATE_HZ = 50d, TARGET_FPS = 30d;
-    public static final int WAVES = 20,
+    public static final int WAVES = 15,
             PROJECTILE_LAUNCHER_Y_DISTANCE = 6, MOST_ENTITY_DEPTH = 8,
             LEFT = -1, RIGHT = 1,
-            INITIAL_TICK_CYCLE = 24, MIN_TICK_CYCLE = 8, TICK_CYCLE_DECREMENT = 2;
+            INITIAL_TICK_CYCLE = 24, MIN_TICK_CYCLE = 4, TICK_CYCLE_DECREMENT = 2;
 
     /* PLAYER CONSTANTS */
     public static final int
@@ -29,7 +29,7 @@ public final class GameConstants {
             SQUID_POINTS = 40, CRAB_POINTS = 20, OCTOPUS_POINTS = 10;
     public static final double
             SQUID_PROJ_PROB = 0.02, CRAB_PROJ_PROB = 0.01, OCTOPUS_PROJ_PROB = 0.005,
-            MAX_PROJ_PROB = 0.25, PER_WAVE_PROJ_PROB = 0.005;
+            MAX_PROJ_PROB = 0.08, PER_WAVE_PROJ_PROB = 0.005;
 
     /* UFO CONSTANTS */
     public static final int UFO_WIDTH = 16,
@@ -38,7 +38,8 @@ public final class GameConstants {
     public static final double UFO_SPAWN_PROBABILITY = 0.05;
 
     /* EXPLOSION CONSTANTS */
-    public static final int LIFESPAN = 15;
+    public static final int ENEMY_EXPLOSION_LIFESPAN = 15, UFO_EXPLOSION_LIFESPAN = 25;
+    public static final double UFO_EXPLOSION_LONGEVITY_SHOW_POINT_THRESHOLD = 0.4;
 
     /* PROJECTILE CONSTANTS */
     public static final int PLAYER_LASER_WIDTH = 1, ENEMY_LASER_WIDTH = 3, PROJECTILE_DEPTH = 5;
