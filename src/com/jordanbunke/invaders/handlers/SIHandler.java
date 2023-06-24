@@ -1,10 +1,10 @@
 package com.jordanbunke.invaders.handlers;
 
 import com.jordanbunke.invaders.io.Settings;
-import com.jordanbunke.invaders.logic.entity.EntityFactory;
-import com.jordanbunke.invaders.logic.entity.EntityUtils;
 import com.jordanbunke.invaders.logic.GameConstants;
 import com.jordanbunke.invaders.logic.components.*;
+import com.jordanbunke.invaders.logic.entity.EntityFactory;
+import com.jordanbunke.invaders.logic.entity.EntityUtils;
 import com.jordanbunke.invaders.logic.systems.Collision;
 import com.jordanbunke.invaders.math.SIMath;
 import com.jordanbunke.invaders.menus.Menus;
@@ -12,8 +12,8 @@ import com.jordanbunke.jbjgl.events.EventHandler;
 import com.jordanbunke.jbjgl.events.GameEvent;
 import com.jordanbunke.jbjgl.events.GameKeyEvent;
 import com.jordanbunke.jbjgl.game.LogicHandler;
-import com.jordanbunke.jbjgl.game_world.Vector2D;
 import com.jordanbunke.jbjgl.game_world.ecs.GameEntity;
+import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
 import com.jordanbunke.jbjgl.io.InputEventLogger;
 
 import java.util.*;

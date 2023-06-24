@@ -1,8 +1,8 @@
 package com.jordanbunke.invaders.logic.systems;
 
 import com.jordanbunke.invaders.logic.components.*;
-import com.jordanbunke.jbjgl.game_world.Vector2D;
 import com.jordanbunke.jbjgl.game_world.ecs.GameEntity;
+import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
 
 public final class Collision {
     public static boolean checkCollision(final GameEntity<Vector2D> target, final GameEntity<Vector2D> projectile) {

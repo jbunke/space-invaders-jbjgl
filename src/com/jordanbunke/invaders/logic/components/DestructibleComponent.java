@@ -1,7 +1,7 @@
 package com.jordanbunke.invaders.logic.components;
 
-import com.jordanbunke.jbjgl.game_world.Vector2D;
 import com.jordanbunke.jbjgl.game_world.ecs.EntityComponent;
+import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
 
 public final class DestructibleComponent extends EntityComponent<Vector2D> {
     private int hp;
