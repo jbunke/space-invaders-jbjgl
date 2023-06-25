@@ -9,7 +9,7 @@ import com.jordanbunke.jbjgl.OnStartup;
 import com.jordanbunke.jbjgl.contexts.ProgramContext;
 import com.jordanbunke.jbjgl.debug.GameDebugger;
 import com.jordanbunke.jbjgl.game.Game;
-import com.jordanbunke.jbjgl.game.GameEngine;
+import com.jordanbunke.jbjgl.game.GameLoop;
 import com.jordanbunke.jbjgl.game.GameManager;
 import com.jordanbunke.jbjgl.image.GameImage;
 import com.jordanbunke.jbjgl.io.InputEventLogger;
@@ -18,7 +18,7 @@ import com.jordanbunke.jbjgl.window.GameWindow;
 public final class SpaceInvaders implements ProgramContext {
     private static final SpaceInvaders INSTANCE;
 
-    private final GameEngine gameEngine;
+    private final GameLoop loop;
 
     static {
         OnStartup.run();
@@ -31,19 +31,19 @@ public final class SpaceInvaders implements ProgramContext {
         final GameWindow window = createWindow();
         final GameManager gameManager = new GameManager(0, this);
 
-        gameEngine = new GameEngine(window, gameManager,
+        loop = new GameLoop(window, gameManager,
                 GameConstants.UPDATE_HZ, GameConstants.TARGET_FPS);
-        gameEngine.setCanvasSize(SIRenderer.CANVAS_WIDTH,
+        loop.setCanvasSize(SIRenderer.CANVAS_WIDTH,
                 SIRenderer.CANVAS_HEIGHT);
 
-        new Game(GameConstants.TITLE, gameManager, gameEngine);
+        Game.launch(gameManager, loop);
     }
 
     public static void main(String[] args) {
     }
 
     public static void refreshWindow() {
-        INSTANCE.gameEngine.replaceWindow(createWindow());
+        INSTANCE.loop.replaceWindow(createWindow());
     }
 
     private static GameWindow createWindow() {
