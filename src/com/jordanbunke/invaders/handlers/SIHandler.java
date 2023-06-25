@@ -352,11 +352,10 @@ public final class SIHandler implements LogicHandler, EventHandler {
         for (GameEntity<Vector2D> projectile : projectiles)
             for (GameEntity<Vector2D> target : targets)
                 if (Collision.checkCollision(target, projectile)) {
-                    final HasPointsComponent hpc = target.getComponent(HasPointsComponent.class);
-                    if (hpc != null) {
+                    target.executeIfComponentPresent(HasPointsComponent.class, hpc -> {
                         score += hpc.points;
                         highScore = Math.max(score, highScore);
-                    }
+                    });
                 }
     }
 

@@ -204,18 +204,15 @@ public final class SIRenderer implements Renderer {
 
     /* INDIVIDUAL ENTITIES */
     private void renderPlayer(final GameImage canvas, final GameEntity<Vector2D> player) {
-        final DestructibleComponent dc = player.getComponent(DestructibleComponent.class);
+        player.executeIfComponentPresent(DestructibleComponent.class, dc -> {
+            final GameImage sprite = dc.isDestroyed()
+                    ? (spriteStateB
+                    ? spriteMap.get(Sprite.CANNON_DESTROYED_2)
+                    : spriteMap.get(Sprite.CANNON_DESTROYED_1))
+                    : spriteMap.get(Sprite.CANNON);
 
-        if (dc == null)
-            return;
-
-        final GameImage sprite = dc.isDestroyed()
-                ? (spriteStateB
-                ? spriteMap.get(Sprite.CANNON_DESTROYED_2)
-                : spriteMap.get(Sprite.CANNON_DESTROYED_1))
-                : spriteMap.get(Sprite.CANNON);
-
-        renderEntity(canvas, sprite, player);
+            renderEntity(canvas, sprite, player);
+        });
     }
 
     private void renderUFO(final GameImage canvas, final GameEntity<Vector2D> ufo) {
@@ -223,37 +220,31 @@ public final class SIRenderer implements Renderer {
     }
 
     private void renderEffect(final GameImage canvas, final GameEntity<Vector2D> effect) {
-        final EffectComponent ec = effect.getComponent(EffectComponent.class);
+        effect.executeIfComponentPresent(EffectComponent.class, ec -> {
+            final GameImage sprite;
+            final String id = ec.id;
 
-        if (ec == null)
-            return;
+            if (id.equals("explosion") ||
+                    ec.getAgeAsLifespanRatio() < GameConstants.UFO_EXPLOSION_LONGEVITY_SHOW_POINT_THRESHOLD)
+                sprite = spriteMap.get(Sprite.EXPLOSION);
+            else if (effectSpriteMap.containsKey(effect))
+                sprite = effectSpriteMap.get(effect);
+            else {
+                sprite = RenderHelper.drawText(id);
+                effectSpriteMap.put(effect, sprite);
+            }
 
-        final GameImage sprite;
-        final String id = ec.id;
-
-        if (id.equals("explosion") ||
-                ec.getAgeAsLifespanRatio() < GameConstants.UFO_EXPLOSION_LONGEVITY_SHOW_POINT_THRESHOLD)
-            sprite = spriteMap.get(Sprite.EXPLOSION);
-        else if (effectSpriteMap.containsKey(effect))
-            sprite = effectSpriteMap.get(effect);
-        else {
-            sprite = RenderHelper.drawText(id);
-            effectSpriteMap.put(effect, sprite);
-        }
-
-        renderEntity(canvas, sprite, effect);
+            renderEntity(canvas, sprite, effect);
+        });
     }
 
     private void renderEnemy(final GameImage canvas, final GameEntity<Vector2D> enemy) {
-        final EnemyLogicComponent elc = enemy.getComponent(EnemyLogicComponent.class);
+        enemy.executeIfComponentPresent(EnemyLogicComponent.class, elc -> {
+            final String suffix = spriteStateA ? "_2" : "_1";
+            final GameImage sprite = spriteMap.get(Sprite.valueOf(elc.type + suffix));
 
-        if (elc == null)
-            return;
-
-        final String suffix = spriteStateA ? "_2" : "_1";
-        final GameImage sprite = spriteMap.get(Sprite.valueOf(elc.type + suffix));
-
-        renderEntity(canvas, sprite, enemy);
+            renderEntity(canvas, sprite, enemy);
+        });
     }
 
     private void renderBunkerPart(final GameImage canvas, final GameEntity<Vector2D> part) {
@@ -286,22 +277,19 @@ public final class SIRenderer implements Renderer {
     }
 
     private void renderProjectile(final GameImage canvas, final GameEntity<Vector2D> projectile) {
-        final ProjectileComponent ppc = projectile.getComponent(ProjectileComponent.class);
+        projectile.executeIfComponentPresent(ProjectileComponent.class, ppc -> {
+            final GameImage sprite = switch (ppc.type) {
+                case PLAYER -> spriteMap.get(Sprite.PLAYER_LASER);
+                case ENEMY -> {
+                    if (spriteStateA)
+                        yield spriteMap.get(Sprite.CROSS_2);
 
-        if (ppc == null)
-            return;
+                    yield spriteMap.get(Sprite.CROSS_1);
+                }
+            };
 
-        final GameImage sprite = switch (ppc.type) {
-            case PLAYER -> spriteMap.get(Sprite.PLAYER_LASER);
-            case ENEMY -> {
-                if (spriteStateA)
-                    yield spriteMap.get(Sprite.CROSS_2);
-
-                yield spriteMap.get(Sprite.CROSS_1);
-            }
-        };
-
-        renderEntity(canvas, sprite, projectile);
+            renderEntity(canvas, sprite, projectile);
+        });
     }
 
     private void renderEntity(final GameImage canvas, final GameImage sprite, final GameEntity<Vector2D> entity) {
