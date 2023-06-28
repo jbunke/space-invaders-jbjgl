@@ -106,7 +106,6 @@ public final class SIHandler implements LogicHandler, EventHandler {
                 }
                 case BETWEEN_WAVES -> updateBetweenLevels();
                 case LIFE_LOST -> updateImpendingPlayerRespawn();
-                default -> {}
             }
         }
     }

@@ -14,6 +14,7 @@ import com.jordanbunke.jbjgl.image.GameImage;
 import com.jordanbunke.jbjgl.io.ResourceLoader;
 import com.jordanbunke.jbjgl.utility.Coord2D;
 
+import java.awt.*;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -28,7 +29,8 @@ public final class SIRenderer implements Renderer {
     public static final int
             CANVAS_WIDTH = GameConstants.GW_WIDTH,
             CANVAS_HEIGHT = UI_STRIP_Y + UI_STRIP_HEIGHT,
-            WINDOW_SCALE_UP = 4, RENDER_TICK_COUNTER_MAX = 10;
+            WINDOW_SCALE_UP = calculateWindowScaleUp(),
+            RENDER_TICK_COUNTER_MAX = 10;
 
     private enum Sprite {
         BUNKER_FULL, BUNKER_TOP_LEFT, BUNKER_TOP_RIGHT, BUNKER_UNDER_LEFT, BUNKER_UNDER_RIGHT,
@@ -47,6 +49,19 @@ public final class SIRenderer implements Renderer {
 
     private boolean spriteStateA, spriteStateB;
     private int renderTickCounter;
+
+    private static int calculateWindowScaleUp() {
+        final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height,
+                APPROX_TOOLBAR_HEIGHT_PIXELS = 50;
+
+        final int roundedDownQuotient = SCREEN_HEIGHT / CANVAS_HEIGHT;
+
+        if (SCREEN_HEIGHT - (CANVAS_HEIGHT * roundedDownQuotient) <
+                APPROX_TOOLBAR_HEIGHT_PIXELS && roundedDownQuotient > 1)
+            return roundedDownQuotient - 1;
+        else
+            return roundedDownQuotient;
+    }
 
     private SIRenderer() {
         spriteStateA = false;
