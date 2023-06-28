@@ -2,7 +2,7 @@ package com.jordanbunke.invaders.logic.components;
 
 import com.jordanbunke.invaders.logic.GameConstants;
 import com.jordanbunke.invaders.math.SIMath;
-import com.jordanbunke.jbjgl.game_world.ecs.EntityComponent;
+import com.jordanbunke.jbjgl.game_world.ecs.basic_components.EntityComponent;
 import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
 
 public final class UFOLogicComponent extends EntityComponent<Vector2D> {
