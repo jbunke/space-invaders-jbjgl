@@ -1,8 +1,8 @@
 package com.jordanbunke.invaders.io;
 
-import com.jordanbunke.jbjgl.fonts.Font;
-import com.jordanbunke.jbjgl.image.GameImage;
-import com.jordanbunke.jbjgl.io.ResourceLoader;
+import com.jordanbunke.delta_time.fonts.Font;
+import com.jordanbunke.delta_time.image.GameImage;
+import com.jordanbunke.delta_time.io.ResourceLoader;
 
 import java.nio.file.Path;
 

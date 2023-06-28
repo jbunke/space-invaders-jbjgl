@@ -4,13 +4,13 @@ import com.jordanbunke.invaders.SpaceInvaders;
 import com.jordanbunke.invaders.handlers.SIHandler;
 import com.jordanbunke.invaders.handlers.SIRenderer;
 import com.jordanbunke.invaders.io.Settings;
-import com.jordanbunke.jbjgl.image.GameImage;
-import com.jordanbunke.jbjgl.menus.Menu;
-import com.jordanbunke.jbjgl.menus.MenuBuilder;
-import com.jordanbunke.jbjgl.menus.MenuSelectionLogic;
-import com.jordanbunke.jbjgl.menus.menu_elements.MenuElement;
-import com.jordanbunke.jbjgl.menus.menu_elements.visual.StaticMenuElement;
-import com.jordanbunke.jbjgl.utility.Coord2D;
+import com.jordanbunke.delta_time.image.GameImage;
+import com.jordanbunke.delta_time.menus.Menu;
+import com.jordanbunke.delta_time.menus.MenuBuilder;
+import com.jordanbunke.delta_time.menus.MenuSelectionLogic;
+import com.jordanbunke.delta_time.menus.menu_elements.MenuElement;
+import com.jordanbunke.delta_time.menus.menu_elements.visual.StaticMenuElement;
+import com.jordanbunke.delta_time.utility.Coord2D;
 
 public final class Menus {
     private static final int MID_Y = SIRenderer.CANVAS_HEIGHT / 2, INC_Y = 16;

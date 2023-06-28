@@ -5,14 +5,14 @@ import com.jordanbunke.invaders.handlers.SIRenderer;
 import com.jordanbunke.invaders.io.AssetFetcher;
 import com.jordanbunke.invaders.io.Settings;
 import com.jordanbunke.invaders.logic.GameConstants;
-import com.jordanbunke.jbjgl.OnStartup;
-import com.jordanbunke.jbjgl.contexts.ProgramContext;
-import com.jordanbunke.jbjgl.debug.GameDebugger;
-import com.jordanbunke.jbjgl.game.Game;
-import com.jordanbunke.jbjgl.game.GameManager;
-import com.jordanbunke.jbjgl.image.GameImage;
-import com.jordanbunke.jbjgl.io.InputEventLogger;
-import com.jordanbunke.jbjgl.window.GameWindow;
+import com.jordanbunke.delta_time.OnStartup;
+import com.jordanbunke.delta_time.contexts.ProgramContext;
+import com.jordanbunke.delta_time.debug.GameDebugger;
+import com.jordanbunke.delta_time.game.Game;
+import com.jordanbunke.delta_time.game.GameManager;
+import com.jordanbunke.delta_time.image.GameImage;
+import com.jordanbunke.delta_time.io.InputEventLogger;
+import com.jordanbunke.delta_time.window.GameWindow;
 
 public final class SpaceInvaders implements ProgramContext {
     private static final SpaceInvaders INSTANCE;

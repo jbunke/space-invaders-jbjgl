@@ -1,10 +1,10 @@
 package com.jordanbunke.invaders.logic.entity;
 
+import com.jordanbunke.delta_time.game_world.ecs.GameEntity;
+import com.jordanbunke.delta_time.game_world.physics.vector.Vector2D;
+import com.jordanbunke.delta_time.utility.RNG;
 import com.jordanbunke.invaders.logic.GameConstants;
 import com.jordanbunke.invaders.logic.components.*;
-import com.jordanbunke.invaders.math.SIMath;
-import com.jordanbunke.jbjgl.game_world.ecs.GameEntity;
-import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
 
 public final class EntityFactory {
     public static GameEntity<Vector2D> createEnemy(
@@ -39,7 +39,7 @@ public final class EntityFactory {
 
         ufo.addComponent(new DestructibleComponent());
         ufo.addComponent(new UFOLogicComponent());
-        ufo.addComponent(new HasPointsComponent(SIMath.randomInRange(1, 7) *
+        ufo.addComponent(new HasPointsComponent(RNG.randomInRange(1, 7) *
                 GameConstants.UFO_POINTS_MULTIPLIER));
         ufo.addComponent(new ColliderComponent(GameConstants.UFO_WIDTH,
                 GameConstants.MOST_ENTITY_DEPTH));

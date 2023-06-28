@@ -1,10 +1,10 @@
 package com.jordanbunke.invaders.logic.components;
 
+import com.jordanbunke.delta_time.utility.RNG;
 import com.jordanbunke.invaders.handlers.SIHandler;
 import com.jordanbunke.invaders.logic.GameConstants;
-import com.jordanbunke.invaders.math.SIMath;
-import com.jordanbunke.jbjgl.game_world.ecs.basic_components.EntityComponent;
-import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
+import com.jordanbunke.delta_time.game_world.ecs.basic_components.EntityComponent;
+import com.jordanbunke.delta_time.game_world.physics.vector.Vector2D;
 
 public final class EnemyLogicComponent extends EntityComponent<Vector2D> {
     public enum Type {
@@ -37,7 +37,7 @@ public final class EnemyLogicComponent extends EntityComponent<Vector2D> {
 
         getEntity().move(new Vector2D(SIHandler.get().getDirection() * GameConstants.ENEMY_SPEED, 0));
 
-        if (SIMath.prob(boundedProbability())) {
+        if (RNG.prob(boundedProbability())) {
             SIHandler.get().queueEnemyLaser(getEntity());
         }
     }

@@ -1,7 +1,7 @@
 package com.jordanbunke.invaders.io;
 
 import com.jordanbunke.invaders.handlers.SIHandler;
-import com.jordanbunke.jbjgl.io.FileIO;
+import com.jordanbunke.delta_time.io.FileIO;
 
 import java.nio.file.Path;
 

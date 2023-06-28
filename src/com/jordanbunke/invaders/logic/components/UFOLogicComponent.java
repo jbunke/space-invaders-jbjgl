@@ -1,9 +1,9 @@
 package com.jordanbunke.invaders.logic.components;
 
+import com.jordanbunke.delta_time.game_world.ecs.basic_components.EntityComponent;
+import com.jordanbunke.delta_time.game_world.physics.vector.Vector2D;
+import com.jordanbunke.delta_time.utility.RNG;
 import com.jordanbunke.invaders.logic.GameConstants;
-import com.jordanbunke.invaders.math.SIMath;
-import com.jordanbunke.jbjgl.game_world.ecs.basic_components.EntityComponent;
-import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
 
 public final class UFOLogicComponent extends EntityComponent<Vector2D> {
     private static final int SPEED = 1;
@@ -13,7 +13,7 @@ public final class UFOLogicComponent extends EntityComponent<Vector2D> {
     private boolean escaped;
 
     public UFOLogicComponent() {
-        fromLeft = SIMath.flipCoin();
+        fromLeft = RNG.flipCoin();
         escaped = false;
     }
 

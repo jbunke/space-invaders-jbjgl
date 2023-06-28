@@ -1,20 +1,20 @@
 package com.jordanbunke.invaders.handlers;
 
+import com.jordanbunke.delta_time.events.EventHandler;
+import com.jordanbunke.delta_time.events.GameEvent;
+import com.jordanbunke.delta_time.events.GameKeyEvent;
+import com.jordanbunke.delta_time.game.LogicHandler;
+import com.jordanbunke.delta_time.game_world.ecs.GameEntity;
+import com.jordanbunke.delta_time.game_world.physics.vector.Vector2D;
+import com.jordanbunke.delta_time.io.InputEventLogger;
+import com.jordanbunke.delta_time.utility.RNG;
 import com.jordanbunke.invaders.io.Settings;
 import com.jordanbunke.invaders.logic.GameConstants;
 import com.jordanbunke.invaders.logic.components.*;
 import com.jordanbunke.invaders.logic.entity.EntityFactory;
 import com.jordanbunke.invaders.logic.entity.EntityUtils;
 import com.jordanbunke.invaders.logic.systems.Collision;
-import com.jordanbunke.invaders.math.SIMath;
 import com.jordanbunke.invaders.menus.Menus;
-import com.jordanbunke.jbjgl.events.EventHandler;
-import com.jordanbunke.jbjgl.events.GameEvent;
-import com.jordanbunke.jbjgl.events.GameKeyEvent;
-import com.jordanbunke.jbjgl.game.LogicHandler;
-import com.jordanbunke.jbjgl.game_world.ecs.GameEntity;
-import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
-import com.jordanbunke.jbjgl.io.InputEventLogger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -324,7 +324,7 @@ public final class SIHandler implements LogicHandler, EventHandler {
         if (tickCounter == 0 && entities.stream()
                 .filter(x -> x.hasComponent(UFOLogicComponent.class))
                 .collect(Collectors.toSet()).isEmpty()) {
-            if (SIMath.prob(GameConstants.UFO_SPAWN_PROBABILITY))
+            if (RNG.prob(GameConstants.UFO_SPAWN_PROBABILITY))
                 entities.add(EntityFactory.createUFO());
         }
     }

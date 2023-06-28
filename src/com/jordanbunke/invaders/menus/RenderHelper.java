@@ -1,10 +1,10 @@
 package com.jordanbunke.invaders.menus;
 
 import com.jordanbunke.invaders.io.AssetFetcher;
-import com.jordanbunke.jbjgl.image.GameImage;
-import com.jordanbunke.jbjgl.image.ImageProcessing;
-import com.jordanbunke.jbjgl.text.Text;
-import com.jordanbunke.jbjgl.text.TextBuilder;
+import com.jordanbunke.delta_time.image.GameImage;
+import com.jordanbunke.delta_time.image.ImageProcessing;
+import com.jordanbunke.delta_time.text.Text;
+import com.jordanbunke.delta_time.text.TextBuilder;
 
 import java.awt.*;
 

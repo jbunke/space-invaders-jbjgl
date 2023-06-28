@@ -2,8 +2,8 @@ package com.jordanbunke.invaders.logic.entity;
 
 import com.jordanbunke.invaders.logic.GameConstants;
 import com.jordanbunke.invaders.logic.components.*;
-import com.jordanbunke.jbjgl.game_world.ecs.GameEntity;
-import com.jordanbunke.jbjgl.game_world.physics.vector.Vector2D;
+import com.jordanbunke.delta_time.game_world.ecs.GameEntity;
+import com.jordanbunke.delta_time.game_world.physics.vector.Vector2D;
 
 import java.util.Set;
 

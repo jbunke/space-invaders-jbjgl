@@ -1,9 +1,9 @@
 package com.jordanbunke.invaders.menus;
 
 import com.jordanbunke.invaders.handlers.SIRenderer;
-import com.jordanbunke.jbjgl.image.GameImage;
-import com.jordanbunke.jbjgl.menus.menu_elements.button.SimpleMenuButton;
-import com.jordanbunke.jbjgl.utility.Coord2D;
+import com.jordanbunke.delta_time.image.GameImage;
+import com.jordanbunke.delta_time.menus.menu_elements.button.SimpleMenuButton;
+import com.jordanbunke.delta_time.utility.Coord2D;
 
 public final class SIButton extends SimpleMenuButton {
     private SIButton(
