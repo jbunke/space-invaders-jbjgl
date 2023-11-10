@@ -12,7 +12,7 @@ public final class AssetFetcher {
     public static final int FONT_OFFSET = 9;
 
     public static final Font GAME_FONT = Font.loadFromSource(FONT_FOLDER, true,
-            "font-arcade", false, 0.3, 1, false);
+            "font-arcade", false, 0.3, 1, false, false);
     public static GameImage sprite(final String name) {
         return ResourceLoader.loadImageResource(Path.of("img", "sprite", name + ".png"));
     }
